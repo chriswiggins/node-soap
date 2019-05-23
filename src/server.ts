@@ -6,7 +6,7 @@
 import { EventEmitter } from 'events';
 import * as http from 'http';
 import * as url from 'url';
-import { IOneWayOptions, ISecurity, IServerOptions, IServices, ISoapFault, ISoapServiceMethod } from './types';
+import { IOneWayOptions, IServerAuthenticate, IServerOptions, IServices, ISoapFault, ISoapServiceMethod } from './types';
 import { findPrefix } from './utils';
 import { WSDL } from './wsdl';
 import { BindingElement, IPort } from './wsdl/elements';
@@ -73,7 +73,7 @@ export class Server extends EventEmitter {
   public services: IServices;
   public log: (type: string, data: any) => any;
   public authorizeConnection: (req: Request, res?: Response) => boolean;
-  public authenticate: (security: ISecurity, processAuthResult?) => boolean;
+  public authenticate: (security: IServerAuthenticate, processAuthResult?: (result: boolean) => void, req?: Request, obj?: any) => boolean | void | Promise<void>;
 
   private wsdl: WSDL;
   private suppressStack: boolean;
@@ -417,7 +417,7 @@ export class Server extends EventEmitter {
         }
       };
 
-      processAuthResult(authenticate(obj.Header && obj.Header.Security, processAuthResult));
+      processAuthResult(authenticate(obj.Header && obj.Header.Security, processAuthResult, req, obj));
     } else {
       throw new Error('Invalid authenticate function (not a function)');
     }

@@ -51,6 +51,14 @@ export interface ISecurity {
   postProcess?(xml, envelopeKey): string;
 }
 
+export interface IServerAuthenticate {
+  Username: string;
+  UsernameToken: string;
+  Password: string;
+  Nonce: string;
+  Created: string;
+}
+
 export interface IServicePort {
   [methodName: string]: ISoapServiceMethod;
 }
