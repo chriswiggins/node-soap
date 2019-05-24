@@ -1,6 +1,6 @@
 {
   "name": "@chriswiggins/soap",
-  "version": "0.27.4",
+  "version": "0.27.5",
   "description": "A minimal node SOAP client",
   "engines": {
     "node": ">=4.0.0"
